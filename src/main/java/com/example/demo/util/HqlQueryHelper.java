@@ -16,5 +16,6 @@ public class HqlQueryHelper {
     public List<Claim>findClaimsByDescripionKeyword(String Keyword){
         return entityManager.createQuery("FROM Claim c WHERE LOWER(c.description) LIKE LOWER(:kw)", Claim.class).setParamater("kw","%" + keyword + "%").getResultList();
     }
+    public List<Claim>
     
 }
