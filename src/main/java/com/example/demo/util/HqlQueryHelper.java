@@ -14,8 +14,12 @@ public class HqlQueryHelper {
     @PersistenceContext
     private EntityManager entityManager;
     public List<Claim>findClaimsByDescripionKeyword(String Keyword){
-        return entityManager.createQuery("FROM Claim c WHERE LOWER(c.description) LIKE LOWER(:kw)", Claim.class).setParamater("kw","%" + keyword + "%").getResultList();
+        return entityManager
+        .createQuery("FROM Claim c WHERE LOWER(c.description) LIKE LOWER(:kw)", Claim.class)
+        .setParamater("kw","%" + keyword + "%").getResultList();
     }
-    public List<Claim>
+    public List<Claim> findHighValueclaims(Double minAmount){
+        return entityManager.createQuery("FROM Claim c WHERE c.claimAmount > :amt", Claim.class).setParameter("amt", minAmount).getResultList();
+    }
     
 }
