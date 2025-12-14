@@ -1,5 +1,5 @@
 package com.example.demo.security;
 
-public class CustomerUserDetails {
+public class JwtAuthenticationFilter {
     
 }
