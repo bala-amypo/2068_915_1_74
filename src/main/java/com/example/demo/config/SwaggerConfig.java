@@ -1,4 +1,3 @@
-
 package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
@@ -11,6 +10,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 
 @Configuration
 public class SwaggerConfig {
+  
     @Bean
     public OpenAPI api(){
         return new OpenAPI()
@@ -19,6 +19,7 @@ public class SwaggerConfig {
         new SecurityScheme()
          .type(SecurityScheme.Type.HTTP)
          .scheme("bearer")
-         .bearerFormat("JWT"))).addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+         .bearerFormat("JWT")))
+         .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
 }
