@@ -11,7 +11,6 @@ public class FraudRuleService {
 
     private final FraudRuleRepository fraudRuleRepository;
 
-    // MUST be in this order
     public FraudRuleService(FraudRuleRepository fraudRuleRepository) {
         this.fraudRuleRepository = fraudRuleRepository;
     }

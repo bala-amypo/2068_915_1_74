@@ -14,7 +14,6 @@ public class PolicyService {
     private final PolicyRepository policyRepository;
     private final UserRepository userRepository;
 
-    // MUST be in this order
     public PolicyService(PolicyRepository policyRepository, UserRepository userRepository) {
         this.policyRepository = policyRepository;
         this.userRepository = userRepository;

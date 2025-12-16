@@ -15,7 +15,6 @@ public class ClaimService {
     private final ClaimRepository claimRepository;
     private final PolicyRepository policyRepository;
 
-    // MUST be in this order
     public ClaimService(ClaimRepository claimRepository, PolicyRepository policyRepository) {
         this.claimRepository = claimRepository;
         this.policyRepository = policyRepository;

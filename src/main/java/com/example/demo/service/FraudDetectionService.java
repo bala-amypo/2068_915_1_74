@@ -11,7 +11,7 @@ public class FraudDetectionService {
     private final FraudRuleRepository fraudRuleRepository;
     private final FraudCheckResultRepository fraudCheckResultRepository;
 
-    // MUST be in this order
+   
     public FraudDetectionService(
             ClaimRepository claimRepository,
             FraudRuleRepository fraudRuleRepository,
