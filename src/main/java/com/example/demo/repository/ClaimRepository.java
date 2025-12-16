@@ -9,4 +9,3 @@ import com.example.demo.model.Claim;
 public interface ClaimRepository extends JpaRepository<Claim,Long> {
     List<Claim>findByPolicyId(Long policyId);
 }
-`
