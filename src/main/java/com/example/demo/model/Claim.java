@@ -1,83 +1,63 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "claims")
 public class Claim {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Policy policy;
-
-    private LocalDate claimDate;
-
     private double claimAmount;
-
     private String description;
 
-    private String status;
+    @ManyToMany
+    @JoinTable(
+        name = "claim_fraud_rules",
+        joinColumns = @JoinColumn(name = "claim_id"),
+        inverseJoinColumns = @JoinColumn(name = "rule_id")
+    )
+    private Set<FraudRule> suspectedRules = new HashSet<>();
 
     public Claim() {
     }
 
-    public Claim(Policy policy, LocalDate claimDate,
-                 double claimAmount, String description, String status) {
-        this.policy = policy;
-        this.claimDate = claimDate;
+    public Claim(double claimAmount, String description) {
         this.claimAmount = claimAmount;
         this.description = description;
-        this.status = status;
     }
+
+    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
-    }
-
-    public Policy getPolicy() {
-        return policy;
-    }
-
-    public LocalDate getClaimDate() {
-        return claimDate;
     }
 
     public double getClaimAmount() {
         return claimAmount;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPolicy(Policy policy) {
-        this.policy = policy;
-    }
-
-    public void setClaimDate(LocalDate claimDate) {
-        this.claimDate = claimDate;
-    }
-
     public void setClaimAmount(double claimAmount) {
         this.claimAmount = claimAmount;
     }
 
+    public String getDescription() {
+        return description;
+    }
+ 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public Set<FraudRule> getSuspectedRules() {
+        return suspectedRules;
+    }
+
+    public void setSuspectedRules(Set<FraudRule> suspectedRules) {
+        this.suspectedRules = suspectedRules;
     }
 }
