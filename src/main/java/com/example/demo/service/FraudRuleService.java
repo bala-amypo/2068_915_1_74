@@ -1,30 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.model.FraudRule;
-import com.example.demo.repository.FraudRuleRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-public class FraudRuleService {
+public interface FraudRuleService {
 
-    private final FraudRuleRepository fraudRuleRepository;
+    FraudRule createRule(FraudRule rule);
 
-    public FraudRuleService(FraudRuleRepository fraudRuleRepository) {
-        this.fraudRuleRepository = fraudRuleRepository;
-    }
-
-    public FraudRule addRule(FraudRule rule) {
-
-        if (!rule.getSeverity().matches("LOW|MEDIUM|HIGH")) {
-            throw new RuntimeException("invalid severity");
-        }
-
-        return fraudRuleRepository.save(rule);
-    }
-
-    public List<FraudRule> getAllRules() {
-        return fraudRuleRepository.findAll();
-    }
+    List<FraudRule> getAllRules();
 }
