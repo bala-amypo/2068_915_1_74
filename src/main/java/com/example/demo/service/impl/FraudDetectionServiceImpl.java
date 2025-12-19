@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.*;
+import com.example.demo.repository.ClaimRepository;
 import com.example.demo.repository.FraudCheckResultRepository;
 import com.example.demo.service.FraudDetectionService;
 import com.example.demo.service.FraudRuleService;
@@ -9,17 +10,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class FraudDetectionServiceImpl implements FraudDetectionService {
 
+    private final ClaimRepository claimRepository;
     private final FraudRuleService fraudRuleService;
     private final FraudCheckResultRepository resultRepository;
 
-    public FraudDetectionServiceImpl(FraudRuleService fraudRuleService,
+    public FraudDetectionServiceImpl(ClaimRepository claimRepository,
+                                     FraudRuleService fraudRuleService,
                                      FraudCheckResultRepository resultRepository) {
+        this.claimRepository = claimRepository;
         this.fraudRuleService = fraudRuleService;
         this.resultRepository = resultRepository;
     }
 
     @Override
-    public FraudCheckResult checkFraud(Claim claim) {
+    public FraudCheckResult evaluateClaim(Long claimId) {
+
+        Claim claim = claimRepository.findById(claimId)
+                .orElseThrow(() -> new RuntimeException("Claim not found"));
 
         FraudCheckResult result = new FraudCheckResult();
         result.setClaim(claim);
@@ -37,5 +44,12 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         }
 
         return resultRepository.save(result);
+    }
+
+    @Override
+    public FraudCheckResult getResultByClaim(Long claimId) {
+
+        return resultRepository.findByClaimId(claimId)
+                .orElseThrow(() -> new RuntimeException("Result not found"));
     }
 }
