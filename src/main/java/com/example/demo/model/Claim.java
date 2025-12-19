@@ -15,62 +15,66 @@ public class Claim {
 
     private LocalDate claimDate;
 
-    private Double claimAmount;
+    private double claimAmount;
 
     private String description;
 
-    // PENDING / APPROVED / REJECTED
-    private String status = "PENDING";
-
-    // ----- Constructors -----
+    private String status;
 
     public Claim() {
     }
 
-    // ----- Getters & Setters -----
+    public Claim(Policy policy, LocalDate claimDate,
+                 double claimAmount, String description, String status) {
+        this.policy = policy;
+        this.claimDate = claimDate;
+        this.claimAmount = claimAmount;
+        this.description = description;
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Policy getPolicy() {
         return policy;
     }
 
-    public void setPolicy(Policy policy) {
-        this.policy = policy;
-    }
-
     public LocalDate getClaimDate() {
         return claimDate;
     }
 
-    public void setClaimDate(LocalDate claimDate) {
-        this.claimDate = claimDate;
-    }
-
-    public Double getClaimAmount() {
+    public double getClaimAmount() {
         return claimAmount;
-    }
-
-    public void setClaimAmount(Double claimAmount) {
-        this.claimAmount = claimAmount;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getStatus() {
         return status;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPolicy(Policy policy) {
+        this.policy = policy;
+    }
+
+    public void setClaimDate(LocalDate claimDate) {
+        this.claimDate = claimDate;
+    }
+
+    public void setClaimAmount(double claimAmount) {
+        this.claimAmount = claimAmount;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setStatus(String status) {

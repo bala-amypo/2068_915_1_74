@@ -12,67 +12,65 @@ public class FraudRule {
     @Column(unique = true)
     private String ruleName;
 
-    // Example: "claimAmount"
     private String conditionField;
-
-    // >, <, >=, <=, =
     private String operator;
-
-    // Example: "10000"
     private String value;
-
-    // LOW / MEDIUM / HIGH
     private String severity;
-
-    // ----- Constructors -----
 
     public FraudRule() {
     }
 
-    // ----- Getters & Setters -----
+    public FraudRule(String ruleName, String conditionField,
+                     String operator, String value, String severity) {
+        this.ruleName = ruleName;
+        this.conditionField = conditionField;
+        this.operator = operator;
+        this.value = value;
+        this.severity = severity;
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getRuleName() {
         return ruleName;
     }
 
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
-    }
-
     public String getConditionField() {
         return conditionField;
-    }
-
-    public void setConditionField(String conditionField) {
-        this.conditionField = conditionField;
     }
 
     public String getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public String getSeverity() {
         return severity;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
+
+    public void setConditionField(String conditionField) {
+        this.conditionField = conditionField;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public void setSeverity(String severity) {
