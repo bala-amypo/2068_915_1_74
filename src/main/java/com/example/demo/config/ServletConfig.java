@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.servlet.HelloServlet;
+import com.example.demo.servlet.SimpleStatusServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class ServletConfig {
 
     @Bean
-    public ServletRegistrationBean<HelloServlet> helloServlet() {
-        return new ServletRegistrationBean<>(new HelloServlet(), "/status");
+    public ServletRegistrationBean<SimpleStatusServlet> helloServlet() {
+        return new ServletRegistrationBean<>(new SimpleStatusServlet(), "/status");
     }
 }
