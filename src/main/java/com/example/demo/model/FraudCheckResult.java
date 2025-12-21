@@ -1,78 +1,86 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "fraud_check_results")
 public class FraudCheckResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(mappedBy = "fraudCheckResult")
     private Claim claim;
 
-    private Boolean isFraudulent;
-    private String triggeredRuleName;
-    private String rejectionReason;
+    private boolean isFraudulent;
+    
+    // Removed fields:
+    // private String triggeredRuleName;
+    // private String rejectionReason;
+
     private LocalDateTime checkedAt;
 
-    // Many-to-many relationship with FraudRule
     @ManyToMany
+    @JoinTable(
+            name = "fraud_result_rules",
+            joinColumns = @JoinColumn(name = "result_id"),
+            inverseJoinColumns = @JoinColumn(name = "rule_id")
+    )
     private Set<FraudRule> matchedRules = new HashSet<>();
 
-    // ------------------------
-    // Constructors
-    // ------------------------
-    public FraudCheckResult() { }
+    // Default constructor for JPA
+    public FraudCheckResult() {
+    }
 
-    public FraudCheckResult(Claim claim, Boolean isFraudulent, String triggeredRuleName,
-                            String rejectionReason, LocalDateTime checkedAt) {
+    // Updated constructor
+    public FraudCheckResult(Claim claim, boolean isFraudulent, LocalDateTime checkedAt) {
         this.claim = claim;
         this.isFraudulent = isFraudulent;
-        this.triggeredRuleName = triggeredRuleName;
-        this.rejectionReason = rejectionReason;
         this.checkedAt = checkedAt;
     }
 
-    // ------------------------
-    // Getters & Setters
-    // ------------------------
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters and Setters
 
-    public Claim getClaim() { return claim; }
-    public void setClaim(Claim claim) { this.claim = claim; }
+    public Long getId() {
+        return id;
+    }
 
-    public Boolean getIsFraudulent() { return isFraudulent; }
-    public void setIsFraudulent(Boolean isFraudulent) { this.isFraudulent = isFraudulent; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getTriggeredRuleName() { return triggeredRuleName; }
-    public void setTriggeredRuleName(String triggeredRuleName) { this.triggeredRuleName = triggeredRuleName; }
+    public Claim getClaim() {
+        return claim;
+    }
 
-    public String getRejectionReason() { return rejectionReason; }
-    public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
+    public void setClaim(Claim claim) {
+        this.claim = claim;
+    }
 
-    public LocalDateTime getCheckedAt() { return checkedAt; }
-    public void setCheckedAt(LocalDateTime checkedAt) { this.checkedAt = checkedAt; }
+    public boolean isFraudulent() {
+        return isFraudulent;
+    }
 
-    public Set<FraudRule> getMatchedRules() { return matchedRules; }
-    public void setMatchedRules(Set<FraudRule> matchedRules) { this.matchedRules = matchedRules; }
+    public void setFraudulent(boolean fraudulent) {
+        isFraudulent = fraudulent;
+    }
 
-    // ------------------------
-    // Overloaded helper for hidden tests passing String
-    // ------------------------
-    public void setMatchedRules(String ruleName) {
-        Set<FraudRule> rules = new HashSet<>();
-        if (ruleName != null && !ruleName.isEmpty()) {
-            FraudRule rule = new FraudRule();
-            rule.setRuleName(ruleName);
-            rules.add(rule);
-        }
-        this.matchedRules = rules;
+    public LocalDateTime getCheckedAt() {
+        return checkedAt;
+    }
+
+    public void setCheckedAt(LocalDateTime checkedAt) {
+        this.checkedAt = checkedAt;
+    }
+
+    public Set<FraudRule> getMatchedRules() {
+        return matchedRules;
+    }
+
+    public void setMatchedRules(Set<FraudRule> matchedRules) {
+        this.matchedRules = matchedRules;
     }
 }
