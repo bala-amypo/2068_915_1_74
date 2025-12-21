@@ -22,14 +22,12 @@ public class HqlQueryHelper {
         query.setParameter("userId", userId);
         return query.getResultList();
     }
-
     public List<Claim> getClaimsByPolicyId(Long policyId) {
         String hql = "SELECT c FROM Claim c WHERE c.policy.id = :policyId";
         TypedQuery<Claim> query = entityManager.createQuery(hql, Claim.class);
         query.setParameter("policyId", policyId);
         return query.getResultList();
     }
-
     public User getUserByEmail(String email) {
         String hql = "SELECT u FROM User u WHERE u.email = :email";
         TypedQuery<User> query = entityManager.createQuery(hql, User.class);
@@ -37,16 +35,12 @@ public class HqlQueryHelper {
         List<User> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }
-
-    // ✅ Hidden test: high-value claims
     public List<Claim> findHighValueClaims(double amount) {
         String hql = "SELECT c FROM Claim c WHERE c.claimAmount >= :amount";
         TypedQuery<Claim> query = entityManager.createQuery(hql, Claim.class);
         query.setParameter("amount", amount);
         return query.getResultList();
     }
-
-    // ✅ Hidden test: claims by description keyword
     public List<Claim> findClaimsByDescriptionKeyword(String keyword) {
         String hql = "SELECT c FROM Claim c WHERE c.description LIKE :kw";
         TypedQuery<Claim> query = entityManager.createQuery(hql, Claim.class);
