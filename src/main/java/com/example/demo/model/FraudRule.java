@@ -18,15 +18,12 @@ public class FraudRule {
     private String conditionField;
     private String operator;
     private String value;
-    private String severity; // LOW, MEDIUM, HIGH
+    private String severity; 
 
     // Many-to-many with Claim (inverse)
     @ManyToMany(mappedBy = "suspectedRules")
-    private Set<Claim> claims = new HashSet<>(); // ✅ initialize
+    private Set<Claim> claims = new HashSet<>(); 
 
-    // ------------------------
-    // Constructors
-    // ------------------------
     public FraudRule() { }
 
     public FraudRule(String ruleName, String conditionField, String operator, String value, String severity) {
@@ -37,9 +34,6 @@ public class FraudRule {
         this.severity = severity;
     }
 
-    // ------------------------
-    // Getters & Setters
-    // ------------------------
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

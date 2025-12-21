@@ -11,37 +11,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Full name
     private String name;
 
-    // Unique email
     @Column(unique = true, nullable = false)
     private String email;
 
-    // Hashed password (hashing done in service layer)
     @Column(nullable = false)
     private String password;
 
-    // USER or ADMIN (default handled in service layer)
     private String role;
 
-    // One user can own many policies
     @OneToMany(mappedBy = "user")
     private List<Policy> policies;
 
-    // ✅ No-arg constructor (JPA requirement)
     public User() {
     }
 
-    // ✅ Parameterized constructor (used by testcases)
     public User(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
     }
-
-    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
@@ -71,7 +62,6 @@ public class User {
         return password;
     }
 
-    // Password must already be hashed before setting (service layer)
     public void setPassword(String password) {
         this.password = password;
     }
