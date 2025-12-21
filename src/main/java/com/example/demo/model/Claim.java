@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,52 +13,64 @@ public class Claim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double claimAmount;
-    private String description;
+    @ManyToOne
+    private Policy policy;
 
+    private LocalDate claimDate;
+    private Double claimAmount;
+    private String description;
+    private String status; // PENDING, APPROVED, REJECTED
+
+    // Many-to-many with FraudRule
     @ManyToMany
     @JoinTable(
-        name = "claim_fraud_rules",
-        joinColumns = @JoinColumn(name = "claim_id"),
-        inverseJoinColumns = @JoinColumn(name = "rule_id")
+            name = "claim_suspected_rules",
+            joinColumns = @JoinColumn(name = "claim_id"),
+            inverseJoinColumns = @JoinColumn(name = "fraud_rule_id")
     )
-    private Set<FraudRule> suspectedRules = new HashSet<>();
+    private Set<FraudRule> suspectedRules = new HashSet<>(); // ✅ initialize
 
-    public Claim() {
-    }
+    // One-to-one with FraudCheckResult
+    @OneToOne(mappedBy = "claim", cascade = CascadeType.ALL)
+    private FraudCheckResult fraudCheckResult;
 
-    public Claim(double claimAmount, String description) {
+    // ------------------------
+    // Constructors
+    // ------------------------
+    public Claim() { }
+
+    public Claim(Policy policy, LocalDate claimDate, Double claimAmount, String description) {
+        this.policy = policy;
+        this.claimDate = claimDate;
         this.claimAmount = claimAmount;
         this.description = description;
+        this.status = "PENDING";
     }
 
-    // ===== Getters & Setters =====
+    // ------------------------
+    // Getters & Setters
+    // ------------------------
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Policy getPolicy() { return policy; }
+    public void setPolicy(Policy policy) { this.policy = policy; }
 
-    public double getClaimAmount() {
-        return claimAmount;
-    }
+    public LocalDate getClaimDate() { return claimDate; }
+    public void setClaimDate(LocalDate claimDate) { this.claimDate = claimDate; }
 
-    public void setClaimAmount(double claimAmount) {
-        this.claimAmount = claimAmount;
-    }
+    public Double getClaimAmount() { return claimAmount; }
+    public void setClaimAmount(Double claimAmount) { this.claimAmount = claimAmount; }
 
-    public String getDescription() {
-        return description;
-    }
- 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public Set<FraudRule> getSuspectedRules() {
-        return suspectedRules;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setSuspectedRules(Set<FraudRule> suspectedRules) {
-        this.suspectedRules = suspectedRules;
-    }
+    public Set<FraudRule> getSuspectedRules() { return suspectedRules; }
+    public void setSuspectedRules(Set<FraudRule> suspectedRules) { this.suspectedRules = suspectedRules; }
+
+    public FraudCheckResult getFraudCheckResult() { return fraudCheckResult; }
+    public void setFraudCheckResult(FraudCheckResult fraudCheckResult) { this.fraudCheckResult = fraudCheckResult; }
 }
