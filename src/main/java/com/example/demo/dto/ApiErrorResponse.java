@@ -8,7 +8,6 @@ public class ApiErrorResponse {
     private String message;
     private String details;
 
-    
     public ApiErrorResponse() {
         this.timestamp = LocalDateTime.now();
     }

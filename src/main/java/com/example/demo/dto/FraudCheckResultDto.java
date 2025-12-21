@@ -3,26 +3,16 @@ package com.example.demo.dto;
 import java.time.LocalDateTime;
 
 public class FraudCheckResultDto {
-
    
     private Long claimId;
-
     private Boolean isFraudulent;
-
-    // Primary triggered rule name
     private String triggeredRuleName;
-
-    // Explanation message
     private String rejectionReason;
-
-    // Evaluation timestamp
     private LocalDateTime checkedAt;
 
-    // ✅ No-arg constructor
     public FraudCheckResultDto() {
     }
 
-    // ✅ Parameterized constructor (optional but useful)
     public FraudCheckResultDto(Long claimId,
                                Boolean isFraudulent,
                                String triggeredRuleName,
@@ -35,8 +25,7 @@ public class FraudCheckResultDto {
         this.checkedAt = checkedAt;
     }
 
-    // ===== Getters & Setters =====
-
+   
     public Long getClaimId() {
         return claimId;
     }

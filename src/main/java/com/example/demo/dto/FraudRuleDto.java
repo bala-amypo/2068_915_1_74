@@ -2,29 +2,16 @@ package com.example.demo.dto;
 
 public class FraudRuleDto {
 
-    // Rule id (response)
     private Long id;
-
-    // Name of rule
     private String ruleName;
-
-    // Field to check (e.g., claimAmount)
     private String conditionField;
-
-    // Comparison operator (>, <, >=, <=, =)
     private String operator;
-
-    // Threshold value
     private String value;
-
-    // LOW, MEDIUM, HIGH
     private String severity;
 
-    // ✅ No-arg constructor
     public FraudRuleDto() {
     }
 
-    // ✅ Parameterized constructor (optional)
     public FraudRuleDto(Long id,
                         String ruleName,
                         String conditionField,
@@ -38,8 +25,6 @@ public class FraudRuleDto {
         this.value = value;
         this.severity = severity;
     }
-
-    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;

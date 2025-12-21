@@ -10,7 +10,6 @@ package com.example.demo.exception;
  *  - "Result not found"
  */
 public class ResourceNotFoundException extends RuntimeException {
-
     public ResourceNotFoundException(String message) {
         super(message);
     }
