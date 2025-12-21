@@ -17,7 +17,6 @@ public class ClaimServiceImpl implements ClaimService {
     private final ClaimRepository claimRepository;
     private final PolicyRepository policyRepository;
 
-    // ✅ Constructor injection ONLY
     public ClaimServiceImpl(ClaimRepository claimRepository,
                             PolicyRepository policyRepository) {
         this.claimRepository = claimRepository;
@@ -27,22 +26,18 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     public Claim createClaim(Long policyId, Claim claim) {
 
-        // Load policy
         Policy policy = policyRepository.findById(policyId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Policy not found"));
 
-        // Validate claim amount
         if (claim.getClaimAmount() < 0) {
             throw new IllegalArgumentException("Invalid claim amount");
         }
 
-        // Validate claim date (not future)
         if (claim.getClaimDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Invalid claim date");
         }
 
-        // Associate policy
         claim.setPolicy(policy);
 
         return claimRepository.save(claim);

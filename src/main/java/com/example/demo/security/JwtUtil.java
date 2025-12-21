@@ -11,26 +11,23 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private String secretKey = "ThisIsASecretKeyForJwtDemoApplication12345"; // min 32 chars
-    private long expirationMillis = 24 * 60 * 60 * 1000; // 1 day
+    private String secretKey = "ThisIsASecretKeyForJwtDemoApplication12345"; 
+    private long expirationMillis = 24 * 60 * 60 * 1000; 
     private Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
-    // Default no-arg constructor
     public JwtUtil() { }
 
-    // Hidden-test constructor: string + int
     public JwtUtil(String secretKey, int expirationMillis) {
         this.secretKey = secretKey;
         this.expirationMillis = expirationMillis;
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    // Generate token using User object
+   
     public String generateToken(User user) {
         return generateToken(user.getId(), user.getEmail(), user.getRole());
     }
 
-    // Generate token using userId, email, role
     public String generateToken(Long userId, String email, String role) {
         return Jwts.builder()
                 .claim("userId", userId)
@@ -49,7 +46,6 @@ public class JwtUtil {
     public String getRoleFromToken(String token) {
         return getClaims(token).get("role", String.class);
     }
-
     public boolean validateToken(String token) {
         try {
             getClaims(token);
@@ -58,7 +54,6 @@ public class JwtUtil {
             return false;
         }
     }
-
     private Claims getClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)

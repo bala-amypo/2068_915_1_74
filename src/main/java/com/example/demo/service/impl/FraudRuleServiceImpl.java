@@ -12,20 +12,16 @@ public class FraudRuleServiceImpl implements FraudRuleService {
 
     private final FraudRuleRepository fraudRuleRepository;
 
-    // ✅ Constructor injection ONLY
     public FraudRuleServiceImpl(FraudRuleRepository fraudRuleRepository) {
         this.fraudRuleRepository = fraudRuleRepository;
     }
-
     @Override
     public FraudRule addRule(FraudRule rule) {
 
-        // Validate unique rule name
         if (fraudRuleRepository.findByRuleName(rule.getRuleName()).isPresent()) {
             throw new IllegalArgumentException("Invalid or duplicate rule name");
         }
 
-        // Validate severity
         String severity = rule.getSeverity();
         if (!("LOW".equalsIgnoreCase(severity)
                 || "MEDIUM".equalsIgnoreCase(severity)
@@ -35,7 +31,6 @@ public class FraudRuleServiceImpl implements FraudRuleService {
 
         return fraudRuleRepository.save(rule);
     }
-
     @Override
     public List<FraudRule> getAllRules() {
         return fraudRuleRepository.findAll();

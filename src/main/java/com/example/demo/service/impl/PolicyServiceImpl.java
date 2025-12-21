@@ -41,7 +41,6 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public List<Policy> getPoliciesByUser(Long userId) {
-        // ✅ hidden-test safe: return empty list if no policies, do not throw exception
         List<Policy> policies = policyRepository.findByUserId(userId);
         return policies != null ? policies : new ArrayList<>();
     }
