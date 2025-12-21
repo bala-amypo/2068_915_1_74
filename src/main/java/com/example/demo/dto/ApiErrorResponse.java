@@ -8,19 +8,18 @@ public class ApiErrorResponse {
     private String message;
     private String details;
 
-    // ✅ No-arg constructor
+    
     public ApiErrorResponse() {
         this.timestamp = LocalDateTime.now();
     }
 
-    // ✅ Full-arg constructor (matches GlobalExceptionHandler)
+    
     public ApiErrorResponse(LocalDateTime timestamp, String message, String details) {
         this.timestamp = timestamp;
         this.message = message;
         this.details = details;
     }
-
-    // Getters & Setters
+    
     public LocalDateTime getTimestamp() {
         return timestamp;
     }

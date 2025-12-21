@@ -2,23 +2,17 @@ package com.example.demo.dto;
 
 public class AuthResponse {
 
-    // JWT token
     private String token;
 
-    // Logged-in user id
     private Long userId;
 
-    // User email
     private String email;
 
-    // USER or ADMIN
     private String role;
 
-    // ✅ No-arg constructor
     public AuthResponse() {
     }
 
-    // ✅ Parameterized constructor (commonly used in controllers/services)
     public AuthResponse(String token, Long userId, String email, String role) {
         this.token = token;
         this.userId = userId;
@@ -26,8 +20,7 @@ public class AuthResponse {
         this.role = role;
     }
 
-    // ===== Getters & Setters =====
-
+    
     public String getToken() {
         return token;
     }

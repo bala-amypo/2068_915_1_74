@@ -4,10 +4,9 @@ import java.time.LocalDateTime;
 
 public class FraudCheckResultDto {
 
-    // Evaluated claim id
+   
     private Long claimId;
 
-    // Fraud decision
     private Boolean isFraudulent;
 
     // Primary triggered rule name
