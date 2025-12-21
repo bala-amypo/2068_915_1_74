@@ -14,12 +14,12 @@ public class ClaimController {
 
     private final ClaimService claimService;
 
-    // ✅ Constructor injection ONLY
+   
     public ClaimController(ClaimService claimService) {
         this.claimService = claimService;
     }
 
-    // 🔹 POST /api/claims/{policyId}
+   
     @PostMapping("/{policyId}")
     public ClaimDto createClaim(@PathVariable Long policyId,
                                 @RequestBody ClaimDto dto) {
@@ -36,13 +36,13 @@ public class ClaimController {
         return mapToDto(saved);
     }
 
-    // 🔹 GET /api/claims/{id}
+    
     @GetMapping("/{id}")
     public ClaimDto getClaim(@PathVariable Long id) {
         return mapToDto(claimService.getClaim(id));
     }
 
-    // 🔹 GET /api/claims
+   
     @GetMapping
     public List<ClaimDto> getAllClaims() {
         return claimService.getAllClaims()
@@ -51,7 +51,7 @@ public class ClaimController {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Entity → DTO mapper
+
     private ClaimDto mapToDto(Claim claim) {
         ClaimDto dto = new ClaimDto();
         dto.setId(claim.getId());

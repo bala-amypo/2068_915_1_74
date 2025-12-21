@@ -14,12 +14,12 @@ public class PolicyController {
 
     private final PolicyService policyService;
 
-    // ✅ Constructor injection ONLY
+    
     public PolicyController(PolicyService policyService) {
         this.policyService = policyService;
     }
 
-    // 🔹 POST /api/policies/{userId}
+    
     @PostMapping("/{userId}")
     public PolicyDto createPolicy(@PathVariable Long userId,
                                   @RequestBody PolicyDto dto) {
@@ -37,7 +37,7 @@ public class PolicyController {
         return mapToDto(saved);
     }
 
-    // 🔹 GET /api/policies/user/{userId}
+    
     @GetMapping("/user/{userId}")
     public List<PolicyDto> getPoliciesByUser(@PathVariable Long userId) {
 
@@ -47,7 +47,7 @@ public class PolicyController {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Entity → DTO mapper
+    
     private PolicyDto mapToDto(Policy policy) {
         PolicyDto dto = new PolicyDto();
         dto.setId(policy.getId());

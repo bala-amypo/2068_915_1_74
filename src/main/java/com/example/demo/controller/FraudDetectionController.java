@@ -11,12 +11,12 @@ public class FraudDetectionController {
 
     private final FraudDetectionService fraudDetectionService;
 
-    // ✅ Constructor injection ONLY
+    
     public FraudDetectionController(FraudDetectionService fraudDetectionService) {
         this.fraudDetectionService = fraudDetectionService;
     }
 
-    // 🔹 POST /api/fraud-check/evaluate/{claimId}
+    
     @PostMapping("/evaluate/{claimId}")
     public FraudCheckResultDto evaluateClaim(@PathVariable Long claimId) {
 
@@ -25,7 +25,7 @@ public class FraudDetectionController {
         return mapToDto(result);
     }
 
-    // 🔹 GET /api/fraud-check/result/claim/{claimId}
+    
     @GetMapping("/result/claim/{claimId}")
     public FraudCheckResultDto getResult(@PathVariable Long claimId) {
 
@@ -34,7 +34,7 @@ public class FraudDetectionController {
         return mapToDto(result);
     }
 
-    // 🔹 Entity → DTO mapper
+    
     private FraudCheckResultDto mapToDto(FraudCheckResult result) {
         FraudCheckResultDto dto = new FraudCheckResultDto();
         dto.setClaimId(result.getClaim().getId());

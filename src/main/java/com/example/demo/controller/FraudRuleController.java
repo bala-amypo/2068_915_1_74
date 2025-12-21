@@ -14,12 +14,12 @@ public class FraudRuleController {
 
     private final FraudRuleService fraudRuleService;
 
-    // ✅ Constructor injection ONLY
+   
     public FraudRuleController(FraudRuleService fraudRuleService) {
         this.fraudRuleService = fraudRuleService;
     }
 
-    // 🔹 POST /api/rules
+   
     @PostMapping
     public FraudRuleDto addRule(@RequestBody FraudRuleDto dto) {
 
@@ -36,7 +36,7 @@ public class FraudRuleController {
         return mapToDto(saved);
     }
 
-    // 🔹 GET /api/rules
+    
     @GetMapping
     public List<FraudRuleDto> getAllRules() {
 
@@ -46,7 +46,7 @@ public class FraudRuleController {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Entity → DTO mapper
+    
     private FraudRuleDto mapToDto(FraudRule rule) {
         FraudRuleDto dto = new FraudRuleDto();
         dto.setId(rule.getId());

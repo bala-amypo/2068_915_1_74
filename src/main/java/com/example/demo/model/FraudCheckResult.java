@@ -21,7 +21,6 @@ public class FraudCheckResult {
     private String rejectionReason;
     private LocalDateTime checkedAt;
 
-    // Many-to-many relationship with FraudRule
     @ManyToMany
     private Set<FraudRule> matchedRules = new HashSet<>();
 
