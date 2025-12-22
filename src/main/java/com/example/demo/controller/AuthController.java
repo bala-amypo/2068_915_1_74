@@ -44,21 +44,24 @@ public class AuthController {
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 
-        User user = userService.findByEmail(request.getEmail());
+    User user = userService.findByEmail(request.getEmail());
 
-        
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password");
-        }
-
-        
-        String token = jwtUtil.generateToken(user);
-
-        return new AuthResponse(
-                token,
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
+    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        throw new IllegalArgumentException("Invalid email or password");
     }
+
+    String token = jwtUtil.generateToken(
+            user.getEmail(),
+            user.getRole(),
+            user.getId()
+    );
+
+    return new AuthResponse(
+            token,
+            user.getId(),
+            user.getEmail(),
+            user.getRole()
+    );
+}
+
 }
