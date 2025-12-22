@@ -1,4 +1,3 @@
--- Active: 1766392455606@@127.0.0.1@3306@demo_db
 package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -16,22 +15,28 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
+
         final String securitySchemeName = "bearerAuth";
 
         return new OpenAPI()
                 .info(new Info()
                         .title("Demo API")
                         .version("1.0")
-                        .description("Spring Boot Demo Project with JWT"))
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-                .components(new io.swagger.v3.oas.models.Components()
-                        .addSecuritySchemes(securitySchemeName,
-                                new SecurityScheme()
-                                        .name(securitySchemeName)
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")
-                        )
+                        .description("Spring Boot Demo Project with JWT")
+                )
+                .addSecurityItem(
+                        new SecurityRequirement().addList(securitySchemeName)
+                )
+                .components(
+                        new io.swagger.v3.oas.models.Components()
+                                .addSecuritySchemes(
+                                        securitySchemeName,
+                                        new SecurityScheme()
+                                                .name(securitySchemeName)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                )
                 )
                 .servers(List.of(
                         new Server().url("https://9353.pro604cr.amypo.ai/")
