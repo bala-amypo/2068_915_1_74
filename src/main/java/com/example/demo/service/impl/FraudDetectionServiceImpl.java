@@ -57,6 +57,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         result.setCheckedAt(LocalDateTime.now());
 
 
+
         return resultRepository.save(result);
     }
 
