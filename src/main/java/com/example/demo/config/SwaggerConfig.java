@@ -39,7 +39,7 @@ public class SwaggerConfig {
                                 )
                 )
                 .servers(List.of(
-                        new Server().url("https://9353.pro604cr.amypo.ai/")
+                        new Server().url("https://9083.408procr.amypo.ai/")
                 ));
     }
 }
