@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 404 - Resource not found
+   
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
         ApiErrorResponse error = new ApiErrorResponse(
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // 400 - Validation errors
+    
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
         ApiErrorResponse error = new ApiErrorResponse(
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // 500 - Generic fallback
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleAllExceptions(Exception ex) {
         ApiErrorResponse error = new ApiErrorResponse(
