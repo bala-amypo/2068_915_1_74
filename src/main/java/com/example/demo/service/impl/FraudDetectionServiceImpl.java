@@ -29,32 +29,37 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         this.fraudRuleRepository = fraudRuleRepository;
         this.resultRepository = resultRepository;
     }
+
     @Override
     public FraudCheckResult evaluateClaim(Long claimId) {
+
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(() -> new ResourceNotFoundException("Claim not found"));
 
         List<FraudRule> allRules = fraudRuleRepository.findAll();
 
-        boolean isFraud = !allRules.isEmpty();
-        String triggeredRuleName = isFraud ? allRules.get(0).getRuleName() : null;
-        String rejectionReason = isFraud ? "Rule triggered: " + triggeredRuleName : null;
 
-        Set<FraudRule> matchedRules = new HashSet<>(allRules); 
+        Set<String> matchedRuleNames = new HashSet<>();
+        double riskScore = 0;
 
-        FraudCheckResult result = new FraudCheckResult(
-                claim,
-                isFraud,
-                triggeredRuleName,
-                rejectionReason,
-                LocalDateTime.now() 
-        );
+        for (FraudRule rule : allRules) {
+            matchedRuleNames.add(rule.getRuleName());
+            riskScore += 50; 
+        }
 
-        result.setMatchedRules(matchedRules);
-        claim.setFraudCheckResult(result); 
+        boolean isFraud = riskScore > 0;
+
+        FraudCheckResult result = new FraudCheckResult();
+        result.setClaimId(claim.getId());    
+        result.setFraudDetected(isFraud);
+        result.setRiskScore(riskScore);
+        result.setMatchedRuleNames(matchedRuleNames);
+        result.setCheckedAt(LocalDateTime.now());
+
 
         return resultRepository.save(result);
     }
+
     @Override
     public FraudCheckResult getResultByClaim(Long claimId) {
         return resultRepository.findByClaimId(claimId)
