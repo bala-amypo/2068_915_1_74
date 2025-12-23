@@ -38,21 +38,26 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Claim not found"));
 
         List<FraudRule> rules = fraudRuleRepository.findAll();
+        Set<FraudRule> matchedRules = new HashSet<>(rules);
 
-        boolean isFraudulent = !rules.isEmpty();
-        String ruleName = isFraudulent ? rules.get(0).getRuleName() : null;
+        // ✅ Fraud depends ONLY on matchedRules
+        boolean isFraud = !matchedRules.isEmpty();
 
         FraudCheckResult result = new FraudCheckResult();
         result.setClaim(claim);
-        result.setIsFraudulent(isFraudulent);
-        result.setTriggeredRuleName(ruleName);
-        result.setRejectionReason(
-                isFraudulent ? "Rule triggered: " + ruleName : null
-        );
-        result.setCheckedAt(LocalDateTime.now());
-
-        Set<FraudRule> matchedRules = new HashSet<>(rules);
         result.setMatchedRules(matchedRules);
+        result.setCheckedAt(LocalDateTime.now());
+        result.setIsFraudulent(isFraud);
+
+        // ✅ Derived fields (do NOT break 3NF)
+        if (isFraud) {
+            FraudRule firstRule = matchedRules.iterator().next();
+            result.setTriggeredRuleName(firstRule.getRuleName());
+            result.setRejectionReason("Rule triggered: " + firstRule.getRuleName());
+        } else {
+            result.setTriggeredRuleName(null);
+            result.setRejectionReason(null);
+        }
 
         claim.setFraudCheckResult(result);
 
