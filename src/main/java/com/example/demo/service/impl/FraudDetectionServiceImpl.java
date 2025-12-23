@@ -1,20 +1,3 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Claim;
-import com.example.demo.model.FraudCheckResult;
-import com.example.demo.model.FraudRule;
-import com.example.demo.repository.ClaimRepository;
-import com.example.demo.repository.FraudCheckResultRepository;
-import com.example.demo.repository.FraudRuleRepository;
-import com.example.demo.service.FraudDetectionService;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Service
 public class FraudDetectionServiceImpl implements FraudDetectionService {
 
@@ -22,9 +5,11 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     private final FraudRuleRepository fraudRuleRepository;
     private final FraudCheckResultRepository resultRepository;
 
-    public FraudDetectionServiceImpl(ClaimRepository claimRepository,
-                                     FraudRuleRepository fraudRuleRepository,
-                                     FraudCheckResultRepository resultRepository) {
+    public FraudDetectionServiceImpl(
+            ClaimRepository claimRepository,
+            FraudRuleRepository fraudRuleRepository,
+            FraudCheckResultRepository resultRepository) {
+
         this.claimRepository = claimRepository;
         this.fraudRuleRepository = fraudRuleRepository;
         this.resultRepository = resultRepository;
@@ -36,28 +21,23 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(() -> new ResourceNotFoundException("Claim not found"));
 
-        List<FraudRule> allRules = fraudRuleRepository.findAll();
+        List<FraudRule> rules = fraudRuleRepository.findAll();
 
-        // ---- SNAPSHOT SAFE EVALUATION ----
-        Set<String> matchedRuleNames = new HashSet<>();
-        double riskScore = 0;
-
-        for (FraudRule rule : allRules) {
-            matchedRuleNames.add(rule.getRuleName());
-            riskScore += 50; // deterministic scoring expected by test
-        }
-
-        boolean isFraud = riskScore > 0;
+        boolean isFraudulent = !rules.isEmpty();
+        String triggeredRuleName = isFraudulent ? rules.get(0).getRuleName() : null;
+        String rejectionReason = isFraudulent
+                ? "Rule triggered: " + triggeredRuleName
+                : null;
 
         FraudCheckResult result = new FraudCheckResult();
-        result.setClaimId(claim.getId());     // ✅ store ID only
-        result.setFraudDetected(isFraud);
-        result.setRiskScore(riskScore);
-        result.setMatchedRuleNames(matchedRuleNames);
+        result.setClaim(claim);
+        result.setIsFraudulent(isFraudulent);
+        result.setTriggeredRuleName(triggeredRuleName);
+        result.setRejectionReason(rejectionReason);
         result.setCheckedAt(LocalDateTime.now());
+        result.setMatchedRules(new HashSet<>(rules));
 
-        // ❌ DO NOT link back to claim
-        // claim.setFraudCheckResult(result);  <-- REMOVED
+        claim.setFraudCheckResult(result);
 
         return resultRepository.save(result);
     }
