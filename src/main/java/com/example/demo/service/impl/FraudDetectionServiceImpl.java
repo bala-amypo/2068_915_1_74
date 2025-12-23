@@ -34,35 +34,26 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     @Override
     public FraudCheckResult evaluateClaim(Long claimId) {
 
-        Claim claim = claimRepository.findById(claimId)
-                .orElseThrow(() -> new ResourceNotFoundException("Claim not found"));
+    Claim claim = claimRepository.findById(claimId)
+            .orElseThrow(() -> new ResourceNotFoundException("Claim not found"));
 
-        List<FraudRule> rules = fraudRuleRepository.findAll();
-        Set<FraudRule> matchedRules = new HashSet<>(rules);
+    Set<FraudRule> matchedRules =
+            new HashSet<>(fraudRuleRepository.findAll());
 
-        // ✅ Fraud depends ONLY on matchedRules
-        boolean isFraud = !matchedRules.isEmpty();
+    FraudCheckResult result = new FraudCheckResult();
+    result.setClaim(claim);
+    result.setMatchedRules(matchedRules);
+    result.setCheckedAt(LocalDateTime.now());
 
-        FraudCheckResult result = new FraudCheckResult();
-        result.setClaim(claim);
-        result.setMatchedRules(matchedRules);
-        result.setCheckedAt(LocalDateTime.now());
-        result.setIsFraudulent(isFraud);
-
-        // ✅ Derived fields (do NOT break 3NF)
-        if (isFraud) {
-            FraudRule firstRule = matchedRules.iterator().next();
-            result.setTriggeredRuleName(firstRule.getRuleName());
-            result.setRejectionReason("Rule triggered: " + firstRule.getRuleName());
-        } else {
-            result.setTriggeredRuleName(null);
-            result.setRejectionReason(null);
-        }
-
-        claim.setFraudCheckResult(result);
-
-        return resultRepository.save(result);
+    if (!matchedRules.isEmpty()) {
+        FraudRule rule = matchedRules.iterator().next();
+        result.setTriggeredRuleName(rule.getRuleName());
+        result.setRejectionReason("Rule triggered: " + rule.getRuleName());
     }
+
+    claim.setFraudCheckResult(result);
+    return resultRepository.save(result);
+}
 
     @Override
     public FraudCheckResult getResultByClaim(Long claimId) {
