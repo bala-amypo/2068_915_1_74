@@ -25,7 +25,7 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    
+ 
     @PostMapping("/register")
     public User register(@RequestBody AuthRequest request) {
 
@@ -33,7 +33,7 @@ public class AuthController {
                 request.getName(),
                 request.getEmail(),
                 request.getPassword(),
-                null 
+                null  
         );
 
         
@@ -44,24 +44,20 @@ public class AuthController {
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 
-    User user = userService.findByEmail(request.getEmail());
+        User user = userService.findByEmail(request.getEmail());
 
-    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-        throw new IllegalArgumentException("Invalid email or password");
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Invalid email or password");
+        }
+
+        
+        String token = jwtUtil.generateToken(user);
+
+        return new AuthResponse(
+                token,
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
-
-    String token = jwtUtil.generateToken(
-            user.getEmail(),
-            user.getRole(),
-            user.getId()
-    );
-
-    return new AuthResponse(
-            token,
-            user.getId(),
-            user.getEmail(),
-            user.getRole()
-    );
-}
-
 }
