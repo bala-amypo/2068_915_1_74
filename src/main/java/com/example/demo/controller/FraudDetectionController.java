@@ -11,30 +11,22 @@ public class FraudDetectionController {
 
     private final FraudDetectionService fraudDetectionService;
 
-    
     public FraudDetectionController(FraudDetectionService fraudDetectionService) {
         this.fraudDetectionService = fraudDetectionService;
     }
 
-    
     @PostMapping("/evaluate/{claimId}")
     public FraudCheckResultDto evaluateClaim(@PathVariable Long claimId) {
-
         FraudCheckResult result = fraudDetectionService.evaluateClaim(claimId);
-
         return mapToDto(result);
     }
 
-    
     @GetMapping("/result/claim/{claimId}")
     public FraudCheckResultDto getResult(@PathVariable Long claimId) {
-
         FraudCheckResult result = fraudDetectionService.getResultByClaim(claimId);
-
         return mapToDto(result);
     }
 
-    
     private FraudCheckResultDto mapToDto(FraudCheckResult result) {
         FraudCheckResultDto dto = new FraudCheckResultDto();
         dto.setClaimId(result.getClaim().getId());

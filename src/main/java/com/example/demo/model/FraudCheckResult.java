@@ -13,46 +13,40 @@ public class FraudCheckResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * Snapshot reference only (NO entity relation)
-     */
-    @Column(nullable = false)
-    private Long claimId;
+    @OneToOne
+    @JoinColumn(name = "claim_id")
+    private Claim claim;
 
-    @Column(nullable = false)
     private Boolean isFraudulent;
 
     private String triggeredRuleName;
+
     private String rejectionReason;
 
-    @Column(nullable = false)
     private LocalDateTime checkedAt;
 
-    /**
-     * Snapshot-safe rule storage
-     */
-    @ElementCollection
-    @CollectionTable(
+    @ManyToMany
+    @JoinTable(
             name = "fraud_result_rules",
-            joinColumns = @JoinColumn(name = "fraud_result_id")
+            joinColumns = @JoinColumn(name = "fraud_result_id"),
+            inverseJoinColumns = @JoinColumn(name = "rule_id")
     )
-    @Column(name = "rule_name")
-    private Set<String> matchedRuleNames = new HashSet<>();
+    private Set<FraudRule> matchedRules = new HashSet<>();
 
     public FraudCheckResult() {}
 
-    // ---------- Getters & Setters ----------
+    /* Getters and Setters */
 
     public Long getId() {
         return id;
     }
 
-    public Long getClaimId() {
-        return claimId;
+    public Claim getClaim() {
+        return claim;
     }
 
-    public void setClaimId(Long claimId) {
-        this.claimId = claimId;
+    public void setClaim(Claim claim) {
+        this.claim = claim;
     }
 
     public Boolean getIsFraudulent() {
@@ -87,11 +81,11 @@ public class FraudCheckResult {
         this.checkedAt = checkedAt;
     }
 
-    public Set<String> getMatchedRuleNames() {
-        return matchedRuleNames;
+    public Set<FraudRule> getMatchedRules() {
+        return matchedRules;
     }
 
-    public void setMatchedRuleNames(Set<String> matchedRuleNames) {
-        this.matchedRuleNames = matchedRuleNames;
+    public void setMatchedRules(Set<FraudRule> matchedRules) {
+        this.matchedRules = matchedRules;
     }
 }
