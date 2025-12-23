@@ -1,45 +1,51 @@
-package com.example.demo.config;
+package com.example.demo.util;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import com.example.demo.model.Claim;
+import com.example.demo.model.Policy;
+import com.example.demo.model.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Configuration
-public class SwaggerConfig {
+@Component
+public class HqlQueryHelper {
 
-    @Bean
-    public OpenAPI customOpenAPI() {
+    @PersistenceContext
+    private EntityManager entityManager;
 
-        final String securitySchemeName = "bearerAuth";
-
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Demo API")
-                        .version("1.0")
-                        .description("Spring Boot Demo Project with JWT")
-                )
-                .addSecurityItem(
-                        new SecurityRequirement().addList(securitySchemeName)
-                )
-                .components(
-                        new io.swagger.v3.oas.models.Components()
-                                .addSecuritySchemes(
-                                        securitySchemeName,
-                                        new SecurityScheme()
-                                                .name(securitySchemeName)
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")
-                                )
-                )
-                .servers(List.of(
-                        new Server().url("https://9083.408procr.amypo.ai/")
-                ));
+    public List<Policy> getPoliciesByUserId(Long userId) {
+        String hql = "SELECT p FROM Policy p WHERE p.user.id = :userId";
+        TypedQuery<Policy> query = entityManager.createQuery(hql, Policy.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+    public List<Claim> getClaimsByPolicyId(Long policyId) {
+        String hql = "SELECT c FROM Claim c WHERE c.policy.id = :policyId";
+        TypedQuery<Claim> query = entityManager.createQuery(hql, Claim.class);
+        query.setParameter("policyId", policyId);
+        return query.getResultList();
+    }
+    public User getUserByEmail(String email) {
+        String hql = "SELECT u FROM User u WHERE u.email = :email";
+        TypedQuery<User> query = entityManager.createQuery(hql, User.class);
+        query.setParameter("email", email);
+        List<User> result = query.getResultList();
+        return result.isEmpty() ? null : result.get(0);
+    }
+    public List<Claim> findHighValueClaims(double amount) {
+        String hql = "SELECT c FROM Claim c WHERE c.claimAmount >= :amount";
+        TypedQuery<Claim> query = entityManager.createQuery(hql, Claim.class);
+        query.setParameter("amount", amount);
+        return query.getResultList();
+    }
+    public List<Claim> findClaimsByDescriptionKeyword(String keyword) {
+        String hql = "SELECT c FROM Claim c WHERE c.description LIKE :kw";
+        TypedQuery<Claim> query = entityManager.createQuery(hql, Claim.class);
+        query.setParameter("kw", "%" + keyword + "%");
+        return query.getResultList();
     }
 }
+
