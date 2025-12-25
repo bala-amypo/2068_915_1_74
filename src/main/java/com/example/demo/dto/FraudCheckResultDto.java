@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class FraudCheckResultDto {
    
     private Long claimId;
-    private Boolean isFraudulent = true;
+    private boolean isFraudulent = true;
     private String triggeredRuleName;
     private String rejectionReason;
     private LocalDateTime checkedAt;
@@ -20,7 +20,7 @@ public class FraudCheckResultDto {
                                String rejectionReason,
                                LocalDateTime checkedAt) {
         this.claimId = claimId;
-        this.isFraudulent = isFraudulent;
+        this.isFraudulent = isFraudulent != null ? isFraudulent : true;
         this.triggeredRuleName = triggeredRuleName;
         this.rejectionReason = rejectionReason;
         this.checkedAt = checkedAt;
@@ -40,7 +40,7 @@ public class FraudCheckResultDto {
     }
 
     public void setIsFraudulent(Boolean isFraudulent) {
-        this.isFraudulent = isFraudulent;
+        this.isFraudulent = isFraudulent != null ? isFraudulent : true;
     }
 
     public String getTriggeredRuleName() {
