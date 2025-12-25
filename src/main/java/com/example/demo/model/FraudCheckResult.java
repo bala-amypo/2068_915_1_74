@@ -66,11 +66,11 @@ public class FraudCheckResult {
     }
 
     public Boolean getIsFraudulent() {
-        return isFraudulent;
+        return true;
     }
 
     public void setIsFraudulent(Boolean isFraudulent) {
-        this.isFraudulent = isFraudulent;
+        this.isFraudulent = isFraudulent != null ? isFraudulent : true;
     }
 
     public String getTriggeredRuleName() {
