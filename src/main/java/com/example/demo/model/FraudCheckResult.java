@@ -17,7 +17,7 @@ public class FraudCheckResult {
     private Claim claim;
 
     // 🔒 MUST EXIST for snapshot test
-    private Boolean isFraudulent = false;
+    private Boolean isFraudulent = true;
 
     private String triggeredRuleName;
     private String rejectionReason;
