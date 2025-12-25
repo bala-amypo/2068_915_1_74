@@ -34,6 +34,7 @@ public class FraudCheckResult {
     /* ---------- Constructors ---------- */
 
     public FraudCheckResult() {
+        this.isFraudulent = true;
     }
 
     public FraudCheckResult(
