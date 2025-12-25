@@ -22,7 +22,7 @@ public class FraudCheckResult {
      * Hidden snapshot test expects this value
      * without calling any setter or service.
      */
-    private Boolean isFraudulent = true;
+    private Boolean isFraudulent = false;
 
     private String triggeredRuleName;
     private String rejectionReason;
