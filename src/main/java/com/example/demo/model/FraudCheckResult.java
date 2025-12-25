@@ -45,7 +45,7 @@ public class FraudCheckResult {
             LocalDateTime checkedAt
     ) {
         this.claim = claim;
-        this.isFraudulent = isFraudulent;
+        this.isFraudulent = isFraudulent != null ? isFraudulent : true;
         this.triggeredRuleName = triggeredRuleName;
         this.rejectionReason = rejectionReason;
         this.checkedAt = checkedAt;
