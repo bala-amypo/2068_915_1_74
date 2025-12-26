@@ -11,9 +11,8 @@ import com.example.demo.service.FraudDetectionService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class FraudDetectionServiceImpl implements FraudDetectionService {
@@ -22,7 +21,6 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     private final FraudRuleRepository fraudRuleRepository;
     private final FraudCheckResultRepository fraudCheckResultRepository;
 
-    // 🔥 CONSTRUCTOR MUST MATCH TEST EXACTLY
     public FraudDetectionServiceImpl(
             ClaimRepository claimRepository,
             FraudRuleRepository fraudRuleRepository,
@@ -46,14 +44,16 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         result.setCheckedAt(LocalDateTime.now());
 
         if (!rules.isEmpty()) {
-            Set<FraudRule> matched = new HashSet<>(rules);
-            result.setMatchedRules(matched);          // 🔥 sets fraud flag internally
+            String ruleNames = rules.stream()
+                    .map(FraudRule::getRuleName)
+                    .collect(Collectors.joining(","));
+
+            result.setMatchedRules(ruleNames);  // ✅ STRING
             result.setTriggeredRuleName(rules.get(0).getRuleName());
             result.setRejectionReason("Rule triggered");
         }
 
         claim.setFraudCheckResult(result);
-
         return fraudCheckResultRepository.save(result);
     }
 
