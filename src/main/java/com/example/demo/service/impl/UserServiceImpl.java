@@ -7,6 +7,7 @@ import com.example.demo.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
+    
     @Override
     public User register(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
