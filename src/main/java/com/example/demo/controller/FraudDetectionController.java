@@ -15,32 +15,27 @@ public class FraudDetectionController {
         this.fraudDetectionService = fraudDetectionService;
     }
 
-    
     @PostMapping("/evaluate/{claimId}")
     public FraudCheckResultDto evaluateClaim(@PathVariable Long claimId) {
         FraudCheckResult result = fraudDetectionService.evaluateClaim(claimId);
         return mapToDto(result);
     }
 
-    
     @GetMapping("/result/claim/{claimId}")
     public FraudCheckResultDto getResult(@PathVariable Long claimId) {
         FraudCheckResult result = fraudDetectionService.getResultByClaim(claimId);
         return mapToDto(result);
     }
 
-    
     private FraudCheckResultDto mapToDto(FraudCheckResult result) {
-
         FraudCheckResultDto dto = new FraudCheckResultDto();
-
         dto.setClaimId(result.getClaim().getId());
         dto.setIsFraudulent(result.getIsFraudulent());
         dto.setTriggeredRuleName(result.getTriggeredRuleName());
         dto.setRejectionReason(result.getRejectionReason());
         dto.setCheckedAt(result.getCheckedAt());
 
-        
+        // 🔥 FIX: STRING, NOT SET
         dto.setMatchedRules(result.getMatchedRules());
 
         return dto;

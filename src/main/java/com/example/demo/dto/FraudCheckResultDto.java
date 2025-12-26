@@ -1,7 +1,6 @@
 package com.example.demo.dto;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public class FraudCheckResultDto {
 
@@ -10,9 +9,9 @@ public class FraudCheckResultDto {
     private String triggeredRuleName;
     private String rejectionReason;
     private LocalDateTime checkedAt;
-    private Set<String> matchedRules;
 
-    public FraudCheckResultDto() {}
+    // 🔥 STRING SNAPSHOT
+    private String matchedRules;
 
     public Long getClaimId() {
         return claimId;
@@ -54,11 +53,11 @@ public class FraudCheckResultDto {
         this.checkedAt = checkedAt;
     }
 
-    public Set<String> getMatchedRules() {
+    public String getMatchedRules() {
         return matchedRules;
     }
 
-    public void setMatchedRules(Set<String> matchedRules) {
+    public void setMatchedRules(String matchedRules) {
         this.matchedRules = matchedRules;
     }
 }
