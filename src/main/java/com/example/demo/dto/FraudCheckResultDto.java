@@ -1,32 +1,19 @@
 package com.example.demo.dto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class FraudCheckResultDto {
-   
+
     private Long claimId;
-    private boolean isFraudulent = true;
+    private Boolean isFraudulent;
     private String triggeredRuleName;
     private String rejectionReason;
     private LocalDateTime checkedAt;
+    private Set<String> matchedRules;
 
-    public FraudCheckResultDto() {
-        this.isFraudulent = true;
-    }
+    public FraudCheckResultDto() {}
 
-    public FraudCheckResultDto(Long claimId,
-                               Boolean isFraudulent,
-                               String triggeredRuleName,
-                               String rejectionReason,
-                               LocalDateTime checkedAt) {
-        this.claimId = claimId;
-        this.isFraudulent = isFraudulent != null ? isFraudulent : true;
-        this.triggeredRuleName = triggeredRuleName;
-        this.rejectionReason = rejectionReason;
-        this.checkedAt = checkedAt;
-    }
-
-   
     public Long getClaimId() {
         return claimId;
     }
@@ -36,11 +23,11 @@ public class FraudCheckResultDto {
     }
 
     public Boolean getIsFraudulent() {
-        return true;
+        return isFraudulent;
     }
 
     public void setIsFraudulent(Boolean isFraudulent) {
-        this.isFraudulent = isFraudulent != null ? isFraudulent : true;
+        this.isFraudulent = isFraudulent;
     }
 
     public String getTriggeredRuleName() {
@@ -65,5 +52,13 @@ public class FraudCheckResultDto {
 
     public void setCheckedAt(LocalDateTime checkedAt) {
         this.checkedAt = checkedAt;
+    }
+
+    public Set<String> getMatchedRules() {
+        return matchedRules;
+    }
+
+    public void setMatchedRules(Set<String> matchedRules) {
+        this.matchedRules = matchedRules;
     }
 }
