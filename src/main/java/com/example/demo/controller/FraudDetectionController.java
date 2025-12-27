@@ -34,8 +34,6 @@ public class FraudDetectionController {
         dto.setTriggeredRuleName(result.getTriggeredRuleName());
         dto.setRejectionReason(result.getRejectionReason());
         dto.setCheckedAt(result.getCheckedAt());
-
-        // 🔥 FIX: STRING, NOT SET
         dto.setMatchedRules(result.getMatchedRules());
 
         return dto;

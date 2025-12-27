@@ -31,15 +31,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            // Disable CSRF for REST APIs
+            
             .csrf(csrf -> csrf.disable())
 
-            // Stateless session (JWT)
+            
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // Authorization rules
+            
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/auth/**",
@@ -51,10 +51,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
 
-            // Authentication provider
+            
             .authenticationProvider(authenticationProvider())
 
-            // JWT filter
+            
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
