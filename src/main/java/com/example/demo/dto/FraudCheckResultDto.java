@@ -9,8 +9,6 @@ public class FraudCheckResultDto {
     private String triggeredRuleName;
     private String rejectionReason;
     private LocalDateTime checkedAt;
-
-    // 🔥 STRING SNAPSHOT
     private String matchedRules;
 
     public Long getClaimId() {

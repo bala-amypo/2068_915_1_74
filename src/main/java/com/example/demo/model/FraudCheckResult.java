@@ -20,13 +20,12 @@ public class FraudCheckResult {
     private String rejectionReason;
     private LocalDateTime checkedAt;
 
-    // 🔥 SNAPSHOT FIELD (TEST EXPECTS THIS)
+   
     @Column(length = 1000)
     private String matchedRules;
 
     public FraudCheckResult() {}
 
-    // ---------- REQUIRED BY TEST ----------
     public void setMatchedRules(String ruleNames) {
         this.matchedRules = ruleNames;
         this.isFraudulent = ruleNames != null && !ruleNames.isBlank();
@@ -35,8 +34,7 @@ public class FraudCheckResult {
     public String getMatchedRules() {
         return matchedRules;
     }
-    // -------------------------------------
-
+    
     public Boolean getIsFraudulent() {
         return isFraudulent;
     }
