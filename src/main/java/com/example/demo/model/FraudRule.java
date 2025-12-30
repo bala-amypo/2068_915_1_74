@@ -20,7 +20,7 @@ public class FraudRule {
     private String value;
     private String severity; 
 
-    // Many-to-many with Claim (inverse)
+    
     @ManyToMany(mappedBy = "suspectedRules")
     private Set<Claim> claims = new HashSet<>(); 
 
